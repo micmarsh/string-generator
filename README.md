@@ -36,12 +36,12 @@ Some Examples of the above output:
 ## Todo
 
 ### Short-term plans:
-    -Allow list (and map, see below) literals in vectors
-    -Themes: define them somehow (most likely with :themes), then allow maps alongside vectors and list, where the word chosen is looked up according to defined themes
+* Allow list (and map, see below) literals in vectors
+* Themes: define them somehow (most likely with :themes), then allow maps alongside vectors and list, where the word chosen is looked up according to defined themes
 
 ### Long-term plans:
-    -Embed vectors and maps into lists (this will work automatically for maps, may need to do extra stuff for vectors)
-    -Dynamically (randomly) choosing themes as lists are evaluated
+* Embed vectors and maps into lists (this will work automatically for maps, may need to do extra stuff for vectors)
+* Dynamically (randomly) choosing themes as lists are evaluated
 
 
 ## License
