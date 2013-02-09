@@ -1,6 +1,13 @@
 (ns generator.core)
 
-;reserved keywords: :main
+; reserved keywords: :main,
+; new rules:
+; be able to stick lists (and maps!) directly inside
+; of vectors
+; themes! defined somewhere, somehow, then have keywords lead to maps
+; that look up (words? vectors? lists?) by keyword
+;
+; later, you should be able to embed vectors (and maps!?) into lists
 (def example {:main [:greeting  " " :second-phrase]
                 :greeting [:greeting-word :middle :world]
                     :greeting-word (list "Hello" "Goodbye")
@@ -11,7 +18,7 @@
                 :second-phrase [:emotion " to meet you, " :end-phrase :punc]
                     :emotion (list "Pleased" "Inconvenienced" "Aroused")
                     :end-phrase (list "hope you guess my name"
-                                      "I need to go poop now")
+                                      "I need to go sleep now")
                         })
 
 (def bigtest {:main [:first " " :second "! " :third " " :fourth :fifth :sixth]
@@ -61,7 +68,7 @@
                     (cond
                         (vector? value)
                             (apply conj acc value)
-                        (list? value)
+                        :else
                             (conj acc value)))
             (list? item)
                 (conj acc (rand-nth item))
@@ -106,8 +113,8 @@
             (< (count argv) 1)
                 (println "You didn't specify a type: 'recur', 'loop', or 'nostack'")
             (= (argv 0) "recur")
-                (follow-keyword :main bigtest)
+                (follow-keyword :main example)
             (= (argv 0) "loop")
-                (eval-grammar bigtest)
+                (eval-grammar example)
             (= (argv 0) "nostack")
-                (no-stack-eval bigtest))))
+                (no-stack-eval example))))
