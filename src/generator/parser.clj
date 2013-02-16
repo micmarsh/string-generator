@@ -21,7 +21,8 @@
         (fn[acc, item]
             (if
                 (keyword? item)
-                    (eval-item acc, (grammar item), themes)
+                    (let [lookup (grammar item)]
+                         (eval-item acc, (if lookup lookup item), themes))
                 ;else
                     (eval-item acc, item, themes)
                ))

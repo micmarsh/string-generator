@@ -17,6 +17,12 @@
                                       "I need to go sleep now")
                         })
 
+(def theme-test {
+        :themes [:funny :romantic]
+        :main [{:funny "hahahaha" :sad "boohoohoo"} " " :end]
+            :end {}
+    })
+
 
 (defn -main [& args]
     (eval-grammar example))
