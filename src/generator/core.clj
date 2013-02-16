@@ -69,23 +69,30 @@
             (conj acc (rand-nth item))
         (vector? item)
             (apply conj acc item)
-        (string? item)
+        ;(string? item) or keyword!
+        :else
             (conj acc item)))
 
 (defn- single-vector-passthrough [sequence, grammar]
     (reduce
     (fn[acc, item]
-        (cond
+        (if
             (keyword? item)
                 (eval-item acc (grammar item))
-            :else
+            ;else
                 (eval-item acc item)
            ))
     [] sequence ))
 
-(defn- strings? [sequence]
-    (reduce #(and (string? %2) %1)
+(defn- check-all [sequence, checker]
+    (reduce #(and (checker %2) %1)
         true sequence))
+
+(defn- strings? [sequence]
+    (check-all sequence string?))
+
+(defn- keywords? [sequence]
+    (check-all sequence keyword?))
 
 (defn eval-grammar [grammar]
     (loop [sequence (:main grammar)]
