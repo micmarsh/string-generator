@@ -15,22 +15,6 @@
                                       "I need to go sleep now")
                         })
 
-(def bigtest {:main [:first " " :second "! " :third " " :fourth :fifth :sixth]
-                    :first (list "foo" "var" "val" "bar" "baz")
-                    :second [:first :third]
-                    :third [:woot :yeah "wooooo"]
-                        :woot (list "woot" "foo" "baz")
-                        :yeah [:oh :shit]
-                            :oh (list "string1" "a" "b")
-                            :shit (list "fuck" "shit" "damn")
-                    :fourth [:fifth " nope, incorrect " :third :last :last1]
-                        :last ["the last one " :last1 :first :yeah :moar]
-                        :last1 (list "1" "2" "3" "four")
-                        :moar [:first :second]
-                    :fifth [:shit " yeah "]
-                    :sixth [:first "! " :second "third" :fourth :fifth :second :second]
-                    })
-
 (defn- eval-item [acc, item]
     (cond
         (list? item)
