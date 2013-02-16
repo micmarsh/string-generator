@@ -1,25 +1,32 @@
 (ns generator.parser)
 
-(defn- eval-item [acc, item]
+(defn- eval-theme [map-obj, themes]
+    (rand-nth (filter identity (map map-obj themes))))
+
+(defn- eval-item [acc, item, themes]
     (cond
         (list? item)
             (conj acc (rand-nth item))
         (vector? item)
             (apply conj acc item)
+        (map? item)
+            (conj acc (eval-theme item themes))
         ;(string? item) or keyword!
         :else
             (conj acc item)))
 
 (defn- single-vector-passthrough [sequence, grammar]
-    (reduce
-    (fn[acc, item]
-        (if
-            (keyword? item)
-                (eval-item acc (grammar item))
-            ;else
-                (eval-item acc item)
-           ))
-    [] sequence ))
+    (let [themes (grammar :themes)](
+        (reduce
+        (fn[acc, item]
+            (if
+                (keyword? item)
+                    (eval-item acc, (grammar item), themes)
+                ;else
+                    (eval-item acc, item, themes)
+               ))
+        [] sequence ))))
+
 
 (defn- check-all [sequence, checker]
     "Checks to see a a condition is true of every element in a sequence. May already exist in clojure"
@@ -40,7 +47,7 @@
             (recur (single-vector-passthrough sequence grammar)))))
 
 (defn- eval-themes [grammar]
-    (eval-loop grammar :themes keywords? #(vec %)))
+    (eval-loop grammar :themes keywords? identity))
 
 (defn- eval-main [grammar]
     (eval-loop grammar :main strings? #(apply str %)))
