@@ -1,6 +1,6 @@
 # generator
 
-Define a "grammar" (disclaimer: I know absolutely nothing about linguistics or NLP) using Clojure maps, generate some words from it.
+Define a "grammar" (disclaimer: I know absolutely nothing about linguistics) using Clojure maps, generate some words from it.
 
 ## Usage
 

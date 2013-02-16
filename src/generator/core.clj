@@ -8,6 +8,8 @@
 ; that look up (words? vectors? lists?) by keyword
 ;
 ; later, you should be able to embed vectors (and maps!?) into lists
+;themes should be a vector of keywords. Figure out a good way to eval a map with
+;a vector, should return first valid result.
 (def example {:main [:greeting  " " :second-phrase]
                 :greeting [:greeting-word :middle :world]
                     :greeting-word (list "Hello" "Goodbye")
@@ -60,23 +62,28 @@
 ; [:greeting " " ...] -> [:greeting-word :middle :world " " ...]
 ;-> [(list ....) (list ....) :word :punc " " ...] -> ["Goodbye" ", " "Brother" (list ... ) (list ...) " " ...]
 ;when everything's a string, kill loop and (apply str [...])
-(defn single-vector-passthrough [sequence, grammar]
-    (reduce (fn[acc, item]
+
+(defn- eval-item [acc, item]
+    (cond
+        (list? item)
+            (conj acc (rand-nth item))
+        (vector? item)
+            (apply conj acc item)
+        (string? item)
+            (conj acc item)))
+
+(defn- single-vector-passthrough [sequence, grammar]
+    (reduce
+    (fn[acc, item]
         (cond
             (keyword? item)
-                (let [value (grammar item)]
-                    (cond
-                        (vector? value)
-                            (apply conj acc value)
-                        :else
-                            (conj acc value)))
-            (list? item)
-                (conj acc (rand-nth item))
-            (string? item)
-                (conj acc item)))
+                (eval-item acc (grammar item))
+            :else
+                (eval-item acc item)
+           ))
     [] sequence ))
 
-(defn strings? [sequence]
+(defn- strings? [sequence]
     (reduce #(and (string? %2) %1)
         true sequence))
 
