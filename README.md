@@ -36,12 +36,11 @@ Some Examples of the above output:
 ## Todo
 
 ### Short-term plans:
-* Allow list (and map, see below) literals in vectors
-* Themes: define them somehow (most likely with :themes), then allow maps alongside vectors and list, where the word chosen is looked up according to defined themes
+* Themes: define as a vector with the same rule as :main (except that it will become a sequence of keywords, rather than strings, when evaluated)
+** Embed maps in :main to have them be evalauted according to pre-defined theme keywords.
 
 ### Long-term plans:
-* Embed vectors and maps into lists (this will work automatically for maps, may need to do extra stuff for vectors)
-* Dynamically (randomly) choosing themes as lists are evaluated
+* An easy an efficient way to maintain multiple grammars (may be part of CNN headline generator project)
 
 
 ## License

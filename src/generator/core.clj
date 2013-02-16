@@ -1,15 +1,7 @@
 (ns generator.core)
 
-; reserved keywords: :main,
-; new rules:
-; be able to stick lists (and maps!) directly inside
-; of vectors
-; themes! defined somewhere, somehow, then have keywords lead to maps
-; that look up (words? vectors? lists?) by keyword
-;
-; later, you should be able to embed vectors (and maps!?) into lists
-;themes should be a vector of keywords. Figure out a good way to eval a map with
-;a vector, should return first valid result.
+; reserved keywords: :main, :themes
+
 (def example {:main [:greeting  " " :second-phrase]
                 :greeting [:greeting-word :middle :world]
                     :greeting-word (list "Hello" "Goodbye")
