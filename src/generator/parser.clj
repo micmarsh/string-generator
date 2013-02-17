@@ -16,9 +16,10 @@
             (conj acc item)))
 
 (defn- single-vector-passthrough [sequence, grammar]
-    (let [themes (grammar :themes)](
+    (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
+        ; of a better way to separate this shit later
         (reduce
-        (fn[acc, item]
+        (fn [acc, item]
             (if
                 (keyword? item)
                     (let [lookup (grammar item)]
@@ -26,7 +27,7 @@
                 ;else
                     (eval-item acc, item, themes)
                ))
-        [] sequence ))))
+        [] sequence )))
 
 
 (defn- check-all [sequence, checker]

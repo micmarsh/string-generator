@@ -29,15 +29,15 @@ lein run [loop | recur | nostack]
                         })
 ```
 Some Examples of the above output:
-"Goodbye, Brother? Inconvenienced to meet you, I need to go sleep now."
-"Goodbye, World! Pleased to meet you, hope you guess my name!"
-"Hello, World. Aroused to meet you, I need to go sleep now!"
+*"Goodbye, Brother? Inconvenienced to meet you, I need to go sleep now."
+*"Goodbye, World! Pleased to meet you, hope you guess my name!"
+*"Hello, World. Aroused to meet you, I need to go sleep now!"
 
 ## Todo
 
 ### Short-term plans:
 * Themes: define as a vector with the same rule as :main (except that it will become a sequence of keywords, rather than strings, when evaluated)
-** Embed maps in :main to have them be evalauted according to pre-defined theme keywords.
+* Embed maps in :main to have them be evalauted according to pre-defined theme keywords.
 
 ### Long-term plans:
 * An easy an efficient way to maintain multiple grammars (may be part of CNN headline generator project)
