@@ -2,6 +2,7 @@
     (:use [generator.parser :only [eval-grammar]]))
 
 ; reserved keywords: :main, :themes
+; reserved themes: :else, :default
 
 (def example {
         :main [:greeting  " " :second-phrase]
@@ -18,9 +19,11 @@
     })
 
 (def theme-test {
-        :themes [:funny :sad]
-        :main [{:funny "hahahaha" :sad "boohoohoo"} " " :end]
-            :end {:funny "lulz lulz lulz" :romantic "I love you!"}
+        :themes [:romantic :funny :questioning]
+        :main [ :start " " :end ]
+            :start {:funny "hahahaha" :sad "boohoohoo" :romantic "lovelovelove"}
+            :end {:funny ["lulz lulz lulz" :punc] :sad ":-(" :romantic "I love you!"}
+                :punc {:questioning "?" :else "." }
     })
 
 

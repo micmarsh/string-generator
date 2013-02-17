@@ -1,7 +1,16 @@
 (ns generator.parser)
 
+(defn- safe-rand-nth [sequence]
+    "Checks size of sequence before calling rand-nth, returns nil if nothing in sequence"
+    (if (> (count sequence) 0)
+        (rand-nth sequence)))
+
 (defn- eval-theme [map-obj, themes]
-    (rand-nth (filter identity (map map-obj themes))))
+    (let [result (safe-rand-nth (filter identity (map map-obj themes)))]
+        (or result
+            ( or
+                (:else map-obj)
+                (:default map-obj)))))
 
 (defn- eval-item [acc, item, themes]
     (cond
@@ -23,7 +32,7 @@
             (if
                 (keyword? item)
                     (let [lookup (grammar item)]
-                         (eval-item acc, (if lookup lookup item), themes))
+                         (eval-item acc, (or lookup item), themes))
                 ;else
                     (eval-item acc, item, themes)
                ))
