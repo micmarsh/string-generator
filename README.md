@@ -5,8 +5,8 @@ Define a "grammar" (disclaimer: I know absolutely nothing about linguistics) usi
 ## Usage
 
 ```bash
-lein run [loop | recur | nostack]
-#'recur' and 'nostack' are likely to be phased out soon
+#gives output based on example below
+lein run
 ```
 
 ```clojure
@@ -38,11 +38,10 @@ Some Examples of the above output:
 ## Todo
 
 ### Short-term plans:
-* Themes: define as a vector with the same rule as :main (except that it will become a sequence of keywords, rather than strings, when evaluated)
-* Embed maps in :main to have them be evalauted according to pre-defined theme keywords.
+* An easy an efficient way to maintain multiple grammars (may be part of CNN headline generator project)
 
 ### Long-term plans:
-* An easy an efficient way to maintain multiple grammars (may be part of CNN headline generator project)
+* Implement CNN headline generator!
 
 
 ## License

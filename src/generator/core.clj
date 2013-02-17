@@ -27,5 +27,35 @@
     })
 
 
+;possible themes: funny, sad, romantic
+(def letter {
+        :themes []
+        :main [:salutation "\n\n" :paragraph "\n\n" :signature]
+            :salutation[{:romantic "My Darling" :else "To Whom It May Concern"} ","]
+            :paragraph [:opener " " :statement " " :closing]
+                :opener {
+                    :sad "I regret to inform you"
+                    :romantic :romantic-opener
+                    :funny ["It is the opinion of " :funny-entity]
+                    }
+                    :romantic-opener [ "I " :romantic-feeling " writing you" ]
+                        :romantic-feeling (list "tingle with excitement"
+                                                "rejoice")
+                    :funny-entity (list "The Ministry of Silly walks"
+                                        "Your mother")
+                :statement ["that " :statement-map "."]
+                    :statement-map {
+                                    :romantic "my love for you grows with every passing day"
+                                    :sad ["your " (list "goldfish" "dog") " has died"]
+                                    :funny (list "you tried to microwave a ding-dong two times"
+                                                 "you're in violation of common decency")
+                    }
+                :closing {
+
+                }
+
+    })
+
+
 (defn -main [& args]
     (eval-grammar theme-test))
