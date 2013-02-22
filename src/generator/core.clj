@@ -26,6 +26,10 @@
                 :punc {:questioning "?" :else "." }
     })
 
+;IDEA! TODO: Stick all words into a "words" function that
+;automagically sticks spaces where they need to be
+;(or appends a space to every word passed in, then being passed in
+; separately. This needs figuring out)
 
 ;possible themes: funny, sad, romantic
 (def letter {
@@ -36,13 +40,13 @@
                 :opener {
                     :sad "I regret to inform you"
                     :romantic :romantic-opener
-                    :funny ["It is the opinion of" :funny-entity]
+                    :funny ["It is the opinion of " :funny-entity]
                     }
                     :romantic-opener [ "I " :romantic-feeling " writing you" ]
                         :romantic-feeling (list "tingle with excitement"
                                                 "rejoice")
                     :funny-entity (list "The Ministry of Silly walks"
-                                        "Your mother")
+                                        "your mother")
                 :statement [" that " :statement-map "."]
                     :statement-map {
                                     :romantic "my love for you grows with every passing day"
@@ -61,4 +65,4 @@
 
 
 (defn -main [& args]
-    (eval-grammar letter))
+   (println (eval-grammar letter)))
