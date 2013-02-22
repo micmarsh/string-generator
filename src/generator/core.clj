@@ -33,7 +33,7 @@
 
 ;possible themes: funny, sad, romantic
 (def letter {
-        :themes [:funny]
+        :themes [:romantic]
         :main [:salutation "\n\n" :paragraph "\n\n" :signature]
             :salutation[{:romantic "My Darling" :else "To Whom It May Concern"} ","]
             :paragraph [:opener " " :statement " " :closing]
@@ -44,7 +44,7 @@
                     }
                     :romantic-opener [ "I " :romantic-feeling " writing you" ]
                         :romantic-feeling (list "tingle with excitement"
-                                                "rejoice")
+                                                "rejoice in")
                     :funny-entity (list "The Ministry of Silly walks"
                                         "your mother")
                 :statement [" that " :statement-map "."]
