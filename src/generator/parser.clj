@@ -60,8 +60,35 @@
 (defn- eval-themes [grammar]
     (eval-loop grammar :themes keywords? identity))
 
+
 (defn- eval-main [grammar]
-    (eval-loop grammar :main strings? #(apply str %)))
+    (eval-loop grammar :main strings? (sanitize-spaces %))
+
+(defn- add-front-spaces [strings]
+    ())
+
+(defn- append-and-split [strings]
+    (clojure.string/split
+        (apply str (map #(str % " ") strings)) #" +"))
+
+(defn- sanitize-spaces [strings]
+    (let [puncuation #{"," "." "?" "!"}]
+        (apply str
+            (map (fn[word](if (contains? puncuation word) word (str " " word)))
+                (append-and-split strings)))))
+
+;doesn't catch everything thanks to sticking spaces in front! Edge cases:
+;the first word of every line. So we want to check to see if the word is either
+;the first word of a line, or puncuation.
+
+;this mess contains some wisdom:
+;(let [list ["foo" "\n" "bar" "." "baz" "!"]]
+    ;(map-indexed
+        ;(fn[i item]
+            ;(if (or (= i 0) (= (list i) "\n") (contains? #{"." "!"} item)) "poop" "pee")) list))
+;this would be a good replacement for line 66 (with the "list", "poop", "pee" "#{"." "!"}"
+; "(= (list i) "\n")" as good stuff, of course )
+
 
 (defn eval-grammar [grammar]
     (eval-main (assoc grammar
