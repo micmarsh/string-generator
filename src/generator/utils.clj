@@ -1,16 +1,27 @@
 (ns generator.utils)
 
+
+
+(defn- no-space? [i, item, strings]
+    (or
+        (= i 0)
+        (= (last (strings (- i 1))) \newline)
+        (contains? #{"," "." "?" "!"} item)
+        (= (first item) \`)
+        ))
+
+(defn- remove-backtick [item]
+    (if (= (first item) \`)
+        (apply str (rest item))
+        item))
+
 (defn- prepend-spaces [strings]
-    (let [puncuation #{"," "." "?" "!"}]
         (map-indexed
             (fn[i item]
-                (if (or
-                        (= i 0)
-                        (= (last (strings (- i 1))) \newline)
-                        (contains? puncuation item))
-                    item
+                (if (no-space? i, item, strings)
+                    (remove-backtick item)
                     (str " " item)))
-            strings)))
+        strings))
 
 (defn- append-and-split [strings]
     (clojure.string/split

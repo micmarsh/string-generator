@@ -61,8 +61,8 @@
                 :closing {
                     :romantic (list " I miss you and anticipate seeing you soon!"
                                     " Take care, love, until my return!")
-                    :sad [ " The funeral will be at " (list "4" "6") "pm on "
-                            (list "Tues" "Wednes") "day at the home"
+                    :sad [ " The funeral will be at " (list "4" "6") "`pm on "
+                            (list "Tues" "Wednes") "`day at the home"
                             " on " (list "fleet" "maple") " street."]
                     :funny " Clearly, you've made a huge mistake."
                 }

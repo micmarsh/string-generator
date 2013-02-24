@@ -63,7 +63,7 @@
 
 
 (defn- eval-main [grammar]
-    (eval-loop grammar :main strings? (partial sanitize-spaces)))
+    (eval-loop grammar :main strings? sanitize-spaces))
 
 
 
