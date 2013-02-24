@@ -33,7 +33,7 @@
 
 ;possible themes: funny, sad, romantic
 (def letter {
-        :themes [:romantic]
+        :themes [:sad]
         :main [:salutation "\n\n" :paragraph "\n\n" :signature]
             :salutation[{:romantic "My Darling" :else "To Whom It May Concern"} ","]
             :paragraph [:opener " " :statement " " :closing]
@@ -58,8 +58,19 @@
                                                     "to be a dry run, and now you have a bit of a mess"
                                                     " on your hands"))
                     }
-                :closing "..."
-            :signature "..."
+                :closing {
+                    :romantic (list " I miss you and anticipate seeing you soon!"
+                                    " Take care, love, until my return!")
+                    :sad [ " The funeral will be at 6pm on Tuesday at the " (list "house" "condo")
+                            " on " (list "fleet" "maple") " street."]
+                    :funny " Clearly, you've made a huge mistake."
+                }
+            :signature ["With " :with-thing ", " "\n" "Michael Marsh"]
+                :with-thing {
+                    :romantic "Love"
+                    :funny "Lulz"
+                    :sad "Deepest Regrets"
+                }
 
     })
 
