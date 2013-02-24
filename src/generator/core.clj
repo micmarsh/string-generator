@@ -33,7 +33,7 @@
 
 ;possible themes: funny, sad, romantic
 (def letter {
-        :themes [:sad]
+        :themes [:sad :funny]
         :main [:salutation "\n\n" :paragraph "\n\n" :signature]
             :salutation[{:romantic "My Darling" :else "To Whom It May Concern"} ","]
             :paragraph [:opener " " :statement " " :closing]
@@ -61,7 +61,8 @@
                 :closing {
                     :romantic (list " I miss you and anticipate seeing you soon!"
                                     " Take care, love, until my return!")
-                    :sad [ " The funeral will be at 6pm on Tuesday at the " (list "house" "condo")
+                    :sad [ " The funeral will be at " (list "4" "6") "pm on "
+                            (list "Tues" "Wednes") "day at the home"
                             " on " (list "fleet" "maple") " street."]
                     :funny " Clearly, you've made a huge mistake."
                 }
