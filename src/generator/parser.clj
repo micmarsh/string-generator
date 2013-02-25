@@ -4,7 +4,9 @@
 (defn- safe-rand-nth [sequence]
     "Checks size of sequence before calling rand-nth, returns nil if nothing in sequence"
     (if (> (count sequence) 0)
-        (rand-nth sequence)))
+        (rand-nth sequence)
+    ;else nil
+        ))
 
 (defn- eval-theme [map-obj, themes]
     (let [result (safe-rand-nth (filter identity (map map-obj themes)))]
@@ -61,11 +63,8 @@
 (defn- eval-themes [grammar]
     (eval-loop grammar :themes keywords? identity))
 
-
 (defn- eval-main [grammar]
     (eval-loop grammar :main strings? sanitize-spaces))
-
-
 
 (defn eval-grammar [grammar]
     (eval-main (assoc grammar

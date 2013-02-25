@@ -33,7 +33,7 @@
 
 ;possible themes: funny, sad, romantic
 (def letter {
-        :themes [:sad :funny]
+        :themes [:funny]
         :main [:salutation "\n\n" :paragraph "\n\n" :signature]
             :salutation[{:romantic "My Darling" :else "To Whom It May Concern"} ","]
             :paragraph [:opener " " :statement " " :closing]
@@ -77,4 +77,4 @@
 
 
 (defn -main [& args]
-   (println (eval-grammar letter)))
+   (println (eval-grammar letter) ))

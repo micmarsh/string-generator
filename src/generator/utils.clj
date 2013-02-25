@@ -13,6 +13,7 @@
 (defn- remove-backtick [item]
     (if (= (first item) \`)
         (apply str (rest item))
+    ;else
         item))
 
 (defn- prepend-spaces [strings]
@@ -20,6 +21,7 @@
             (fn[i item]
                 (if (no-space? i, item, strings)
                     (remove-backtick item)
+                ;else
                     (str " " item)))
         strings))
 
