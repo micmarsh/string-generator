@@ -42,17 +42,6 @@
         [] sequence )))
 
 
-(defn- check-all [sequence, checker]
-    "Checks to see a a condition is true of every element in a sequence. May already exist in clojure"
-    (reduce #(and (checker %2) %1)
-        true sequence))
-
-(defn- strings? [sequence]
-    (check-all sequence string?))
-
-(defn- keywords? [sequence]
-    (check-all sequence keyword?))
-
 (defn- eval-loop [grammar, main-key, check?, finalize]
     (loop [sequence (main-key grammar)]
         (if (check? sequence)
@@ -61,10 +50,10 @@
             (recur (single-vector-passthrough sequence grammar)))))
 
 (defn- eval-themes [grammar]
-    (eval-loop grammar :themes keywords? identity))
+    (eval-loop grammar :themes (partial every? keyword?) identity))
 
 (defn- eval-main [grammar]
-    (eval-loop grammar :main strings? sanitize-spaces))
+    (eval-loop grammar :main (partial every? string?) sanitize-spaces))
 
 (defn eval-grammar [grammar]
     (eval-main (assoc grammar

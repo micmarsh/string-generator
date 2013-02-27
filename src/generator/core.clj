@@ -78,13 +78,13 @@
 ;default theme combos: [ (list :mainstream :radical) (list :intellectual :frothing)]
 (def politcal-speech {
         :themes [ (list :mainstream :radical) (list :intellectual :frothing)]
-        :main [:introduction ];:problem :take-action :closing]
+        :main [:introduction :problem  :take-action :closing]
             :introduction [:address :follow-up :loaded-question]
                 :address ["My " {:intellectual "trusted" :frothing "outraged" :else "fellow"}
                             {:intellectual "colleagues" :frothing "comrades"
                             :radical "brothers and sisters in solidarity"
                             :else "Americans"} ", " ]
-                :follow-up [ "6 years ago today," :enemy :did-bad-thing "."]
+                :follow-up [ (list "2" "6") (list "years" "weeks") "ago today," :enemy :did-bad-thing "."]
                     :enemy {
                         :mainstream (list "my opponent" :other-party)
                         :radical "our capitalist oppressors"
@@ -103,7 +103,7 @@
                             :else "changed everything"
                         }
                 :loaded-question [ (list ["Did you know " :upsetting-fact]
-                                    ["How long will you" :be-passive]) "?"]
+                                    ["How long will " :be-passive]) "?"]
                     :upsetting-fact {
                         :mainstream {
                             :intellectual ["this nation "
@@ -123,14 +123,16 @@
                                                     "having to expend effort to survive")
                         :evil-institution (list "the Patriarchy" "modern civilization" "rich people")
                     :be-passive {
-                        :mainstream "continue to vote against the middle class"
-                        :intellectual "deny the neccesity of unfettered Keynesianism"
-                        :radical (list [ "continue to be robbed of your"
+                        :mainstream "they continue to vote against the middle class"
+                        :intellectual "they deny the neccesity of unfettered Keynesianism"
+                        :radical (list [ "you continue to be robbed of your"
                                     (list "freedoms" "dignity" "marijuana")]
-                                    "stand by in blissful ignorance with the rest of the sheeple")
+                                    "you stand by in blissful ignorance with the rest of the sheeple")
+                        :else "they do nothing"
                     }
-
-
+            :problem [""]
+            :take-action [""]
+            :closing [""]
 
 
     })
