@@ -75,13 +75,13 @@
 
     })
 
-;default theme combos: [ (list :mainstream :radical) (list :intellectual :frothing)]
+;default theme combos: [ (list :mainstream :radical)]
 (def politcal-speech {
-        :themes [ (list :mainstream :radical) (list :intellectual :frothing)]
+        :themes [ (list :mainstream :radical) ]
         :main [:introduction :problem  :take-action :closing]
             :introduction [:address :follow-up :loaded-question]
-                :address ["My " {:intellectual "trusted" :frothing "outraged" :else "fellow"}
-                            {:intellectual "colleagues" :frothing "comrades"
+                :address ["My " {:mainstream "trusted" :else "fellow"}
+                            {:mainstream "Citizens"
                             :radical "brothers and sisters in solidarity"
                             :else "Americans"} ", " ]
                 :follow-up [ (list "2" "6") (list "years" "weeks") "ago today," :enemy :did-bad-thing "."]
@@ -98,21 +98,17 @@
                             :else "did something"
                         }
                         :effect {
-                            :intellectual "changed the course of history"
-                            :frothing ["destroyed" (list "your wages" "your future")]
+                            :mainstream "changed the face of our country"
+                            :radical ["destroyed" (list "your wages" "your future")]
                             :else "changed everything"
                         }
                 :loaded-question [ (list ["Did you know " :upsetting-fact]
                                     ["How long will " :be-passive]) "?"]
                     :upsetting-fact {
-                        :mainstream {
-                            :intellectual ["this nation "
+                        :mainstream ["this nation "
                                         "exports fewer horse-drawn carraiges now than"
                                         (list "at any point in history" "in 1969")]
-                            :frothing ["the " (list "greedy" "fat-cat")" 1%"
-                                        (list "has more money than you"
-                                            "made record profits last year")]
-                        }
+
                         :radical ["our" :unfortunate-circumstance
                                     "is a direct result of" :evil-institution]
                         :else "this"
@@ -121,10 +117,9 @@
                         :unfortunate-circumstance (list [(list "crippling" "degrading")
                                                         (list "unemployment" "oppression")]
                                                     "having to expend effort to survive")
-                        :evil-institution (list "the Patriarchy" "modern civilization" "rich people")
+                        :evil-institution (list "the Patriarchy" "modern civilization" "the 1%")
                     :be-passive {
                         :mainstream "they continue to vote against the middle class"
-                        :intellectual "they deny the neccesity of unfettered Keynesianism"
                         :radical (list [ "you continue to be robbed of your"
                                     (list "freedoms" "dignity" "marijuana")]
                                     "you stand by in blissful ignorance with the rest of the sheeple")
