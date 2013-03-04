@@ -78,10 +78,10 @@
 ;default theme combos: [ (list :mainstream :radical)]
 (def politcal-speech {
         :themes [ (list :mainstream :radical) ]
-        :main [:introduction :problem  :take-action :closing]
+        :main [:introduction "\n" :problem  :take-action :closing]
             :introduction [:address :follow-up :loaded-question]
                 :address ["My " {:mainstream "trusted" :else "fellow"}
-                            {:mainstream "Citizens"
+                            {:mainstream "citizens"
                             :radical "brothers and sisters in solidarity"
                             :else "Americans"} ", " ]
                 :follow-up [ (list "2" "6") (list "years" "weeks") "ago today," :enemy :did-bad-thing "."]
@@ -125,7 +125,45 @@
                                     "you stand by in blissful ignorance with the rest of the sheeple")
                         :else "they do nothing"
                     }
-            :problem [""]
+            :problem [:lead-in "." :blame-game "." :indignant-statement
+                    {:mainstream "." :radical "!"}]
+                :lead-in ["As " (list "you" "we all") "know, " :new-fact]
+                    :new-fact {
+                        ;if this could be localized, that would be great
+                        :mainstream ["times are tough for"
+                                    (list "all Americans" "middle-class folks")]
+                        :radical ["the corporations have"
+                                    (list "defiled" "repressed")
+                                    (list "mother nature" "the workers") "for too long"]
+                    }
+                :blame-game {
+                    :mainstream ["In fact, the economic problems caused by"
+                        (list :foreigners :bankers :politicians)
+                        "still continue to make life difficult today"]
+
+                    :radical ["While you have struggled "
+                        (list "to make use of your sociology degrees"
+                            "under the heal of your employers"
+                            "for dignity in a capitalist society")
+                        (list :bankers :politicians)
+                        "have grown fat and rich"
+                    ]
+                }
+                    :foreigners [(list "Chinese" "Mexican" "Arab") "immigrants"]
+                    :bankers [{:mainstream "irresponsible" :radical "greedy"} "bankers"]
+                    :politicians [(list "Republican" "Democratic") "politicians"]
+                :indignant-statement {
+                    :mainstream [ "It's time for real changes to be made,"
+                                "changes that will help " :who :do-something]
+                    :radical ["The time has come to " (list "rise up" "mobilize") "and"
+                            :do-something-radical ]
+                }
+                    :who ["the"
+                        (list "hard-working" "honest")
+                        (list "families" "workers" "teachers") "of this country"]
+                    :do-something (list "make a decent living" "restore our global competitiveness")
+                    :do-something-radical ["take back our" (list "factories" "cities" "society")]
+
             :take-action [""]
             :closing [""]
 
