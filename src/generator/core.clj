@@ -221,6 +221,7 @@
                             :bad-radical-actions (list "exploits your labor"
                                                     "saddles you with debt"
                                                     "earns more money than you")
+                    :maybe-an-action ""
             :closing [""]
 
 
