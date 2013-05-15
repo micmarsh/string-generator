@@ -1,43 +1,48 @@
 (ns generator.parser
-    (:use [generator.utils :only [sanitize-spaces]]))
+    (:use [generator.utils :only [sanitize-spaces]]
+            [clojure.core.reducers :only [fold]]
+            [marshmacros.test :only [defntest]]))
 
-(defn- safe-rand-nth [sequence]
-    "Checks size of sequence before calling rand-nth, returns nil if nothing in sequence"
+(defntest safe-rand-nth [sequence]
+    {[[]] nil
+    [[42]] 42}
     (if (> (count sequence) 0)
         (rand-nth sequence)
     ;else nil
         ))
 
 (defn- eval-theme [map-obj, themes]
+    "looks up correct item for a theme in a map, or selects a random item
+    in case of multiple themes"
     (let [result (safe-rand-nth (filter identity (map map-obj themes)))]
         (or result
             ( or
                 (:else map-obj)
                 (:default map-obj)))))
 
-(defn- eval-item [acc, item, themes]
+(defn- eval-item [new-sequence, item, themes]
     (cond
         (list? item)
-            (conj acc (rand-nth item))
+            (conj new-sequence (rand-nth item))
         (vector? item)
-            (apply conj acc item)
+            (into new-sequence item)
         (map? item)
-            (conj acc (eval-theme item themes))
+            (conj new-sequence (eval-theme item themes))
         ;(string? item) or keyword!
         :else
-            (conj acc item)))
+            (conj new-sequence item)))
 
 (defn- single-vector-passthrough [sequence, grammar]
     (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
         ; of a better way to separate this shit later
-        (reduce
-        (fn [acc, item]
+        (reduce ;(partial fold  concat)
+        (fn [new-sequence, item]
             (if
                 (keyword? item)
                     (let [lookup (grammar item)]
-                         (eval-item acc, (or lookup item), themes))
+                         (eval-item new-sequence, (or lookup item), themes))
                 ;else
-                    (eval-item acc, item, themes)
+                    (eval-item new-sequence, item, themes)
                ))
         [] sequence )))
 

@@ -4,7 +4,7 @@
     (or
         (= i 0)
         (= (last (strings (- i 1))) \newline)
-        (contains? #{"," "." "?" "!"} item)
+        (contains? #{"," "." "?" "!" "-"} item)
         (= (first item) \`)
         ))
 
