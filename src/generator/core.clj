@@ -229,4 +229,8 @@
 
 
 (defn -main [& args]
-   (println (eval-grammar politcal-speech) ))
+    (let [[timed?] args
+          main-expr  `(println (eval-grammar politcal-speech) )]
+        (if timed?
+            (time (eval main-expr))
+            (eval main-expr))))

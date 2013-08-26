@@ -20,7 +20,8 @@
                 (:else map-obj)
                 (:default map-obj)))))
 
-(defn- eval-item [new-sequence, item, themes]
+(defn- eval-item ^clojure.lang.PersistentVector
+ [new-sequence, item, themes]
     (cond
         (list? item)
             (conj new-sequence (rand-nth item))
@@ -47,9 +48,9 @@
         [] sequence )))
 
 
-(defn- eval-loop [grammar, main-key, check?, finalize]
+(defn- eval-loop [grammar, main-key, done?, finalize]
     (loop [sequence (main-key grammar)]
-        (if (check? sequence)
+        (if (done? sequence)
             (finalize sequence)
         ;else
             (recur (single-vector-passthrough sequence grammar)))))
