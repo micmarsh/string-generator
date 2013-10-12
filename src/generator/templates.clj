@@ -69,7 +69,26 @@
 
     })
 
-(defn- deftemplate [] () )
+(defn- template? [object]
+    (and (map? object) (:main object)))
+
+(defn- assoc-template [final-map [key value]]
+    (if (template? value)
+        (let [main (:main value)
+              value-without-main (dissoc value :main)
+              map-with-main (assoc final-map key main)]
+        (merge map-with-main value-without-main))
+    ;else
+        (assoc final-map key value)))
+
+(defn- deftemplate [& args]
+    (loop [ final-map { }
+            pairs (partition 2 args)]
+        (if (= 0 (count pairs))
+            final-map
+        ;else
+            (let [pair (first pairs)]
+                (recur (assoc-template final-map pair) (rest pairs))))))
 
 
 ;default theme combos: [ (list :mainstream :radical)]
