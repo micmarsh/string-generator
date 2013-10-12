@@ -37,7 +37,9 @@
             (recur (assoc-template final-map pair) (rest pairs))))))
 
 (defmacro deftemplate [name & args]
-    (let [template-map (make-template-map args)]
+    (let [needs-main (odd? (count args))
+          new-args (if needs-main (cons :main args) args)
+          template-map (make-template-map new-args)]
         (swap! symbol-table #(assoc % name template-map))
         `(def ~name ~template-map)))
 
@@ -66,7 +68,7 @@
 
 
 (deftemplate paragraph
-    :main  [:opener " " :statement " " :closing]
+    [:opener " " :statement " " :closing]
     :opener {
         :sad "I regret to inform you"
         :romantic :romantic-opener
@@ -98,14 +100,13 @@
     }
 )
 
-(deftemplate butt
-    :main [:paragraph]
+(deftemplate butt [:paragraph]
         :paragraph paragraph)
 
 ;possible themes: funny, sad, romantic
 (deftemplate letter
+    [:salutation "\n\n" :paragraph "\n\n" :signature]
     :themes [ (list :sad :romantic :funny) ]
-    :main [:salutation "\n\n" :paragraph "\n\n" :signature]
         :salutation [{:romantic "My Darling" :else "To Whom It May Concern"} ","]
         :paragraph paragraph
 
