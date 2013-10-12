@@ -37,6 +37,7 @@
     [sequence, grammar]
     (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
         ; of a better way to separate this shit later
+        ;(println "what up" sequence)
         (reduce ;(partial fold  concat)
         (fn [new-sequence, item]
             (if

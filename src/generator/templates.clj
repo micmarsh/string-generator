@@ -3,27 +3,43 @@
 ; reserved keywords: :main, :themes
 ; reserved themes: :else, :default
 
+(def symbol-table (atom { }))
 
 (defn- template? [object]
-    (and (map? object) (:main object)))
+    (cond
+    (symbol? object)
+        (let [evaled (@symbol-table object)]
+            (and
+                (map? evaled)
+                (:main evaled)))
+    (map? object)
+        (:main object)
+    :else
+        false))
 
 (defn- assoc-template [final-map [key value]]
     (if (template? value)
-        (let [main (:main value)
-              value-without-main (dissoc value :main)
+        (let [to-map (@symbol-table value)
+              main (:main to-map)
+              value-without-main (dissoc to-map :main)
               map-with-main (assoc final-map key main)]
         (merge map-with-main value-without-main))
     ;else
         (assoc final-map key value)))
 
-(defn- deftemplate [& args]
+(defn- make-template-map [pairs]
     (loop [ final-map { }
-            pairs (partition 2 args)]
-        (if (= 0 (count pairs))
-            final-map
-        ;else
-            (let [pair (first pairs)]
-                (recur (assoc-template final-map pair) (rest pairs))))))
+            pairs (partition 2 pairs)]
+    (if (= 0 (count pairs))
+        final-map
+    ;else
+        (let [pair (first pairs)]
+            (recur (assoc-template final-map pair) (rest pairs))))))
+
+(defmacro deftemplate [name & args]
+    (let [template-map (make-template-map args)]
+        (swap! symbol-table #(assoc % name template-map))
+        `(def ~name ~template-map)))
 
 
 (def example {
@@ -49,7 +65,7 @@
     })
 
 
-(def paragraph (deftemplate
+(deftemplate paragraph
     :main  [:opener " " :statement " " :closing]
     :opener {
         :sad "I regret to inform you"
@@ -81,21 +97,24 @@
         :funny " Clearly, you've made a huge mistake."
     }
 )
-)
-;possible themes: funny, sad, romantic
-(def letter (deftemplate
-        :themes [ (list :sad :romantic :funny) ]
-        :main [:salutation "\n\n" :paragraph "\n\n" :signature]
-            :salutation [{:romantic "My Darling" :else "To Whom It May Concern"} ","]
-            :paragraph paragraph
 
-            :signature ["With " :with-thing ", " "\n" "Michael Marsh"]
-                :with-thing {
-                    :romantic "Love"
-                    :funny "Lulz"
-                    :sad "Deepest Regrets"
-                }
-    )
+(deftemplate butt
+    :main [:paragraph]
+        :paragraph paragraph)
+
+;possible themes: funny, sad, romantic
+(deftemplate letter
+    :themes [ (list :sad :romantic :funny) ]
+    :main [:salutation "\n\n" :paragraph "\n\n" :signature]
+        :salutation [{:romantic "My Darling" :else "To Whom It May Concern"} ","]
+        :paragraph paragraph
+
+        :signature ["With " :with-thing ", " "\n" "Michael Marsh"]
+            :with-thing {
+                :romantic "Love"
+                :funny "Lulz"
+                :sad "Deepest Regrets"
+            }
 )
 
 

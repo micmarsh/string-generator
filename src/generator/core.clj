@@ -5,7 +5,7 @@
 
 (defn -main [& args]
     (let [[timed?] args
-          main-expr  `(println (eval-grammar letter) )]
+          main-expr `(println (eval-grammar letter) )]
         (if timed?
             (time (eval main-expr))
-            (eval main-expr))))
+        (eval main-expr))))
