@@ -69,6 +69,8 @@
 
     })
 
+(defn- deftemplate [] () )
+
 
 ;default theme combos: [ (list :mainstream :radical)]
 (def political-speech {
