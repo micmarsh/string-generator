@@ -20,7 +20,7 @@
                 (:else map-obj)
                 (:default map-obj)))))
 
-(defn- eval-item ^clojure.lang.PersistentVector
+(defn- eval-item
  [new-sequence, item, themes]
     (cond
         (list? item)
@@ -33,7 +33,8 @@
         :else
             (conj new-sequence item)))
 
-(defn- single-vector-passthrough [sequence, grammar]
+(defn- single-vector-passthrough
+    [sequence, grammar]
     (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
         ; of a better way to separate this shit later
         (reduce ;(partial fold  concat)
