@@ -43,7 +43,6 @@
         (swap! symbol-table #(assoc % name template-map))
         `(def ~name ~template-map)))
 
-
 (def example {
         :main [:greeting  " " :second-phrase]
             :greeting [:greeting-word :middle :world]
@@ -67,30 +66,32 @@
     })
 
 
-(deftemplate paragraph
-    [:opener " " :statement " " :closing]
-    :opener {
-        :sad "I regret to inform you"
-        :romantic :romantic-opener
-        :funny ["It is the opinion of " :funny-entity]
-        }
-        :romantic-opener [ "I " :romantic-feeling " writing you" ]
-            :romantic-feeling (list "tingle with excitement"
-                                    "rejoice in")
-        :funny-entity (list "The Ministry of Silly walks"
-                            "your mother")
-    :statement [" that " :statement-map "."]
-        :statement-map {
-                        :romantic "my love for you grows with every passing day"
-                        :sad ["your " (list "goldfish" "dog") " has died"]
-                        :funny (list [(str "you tried to microwave a ding-dong while "
-                                            "it was still in the wrapper " )
-                                        (list "twice" "thrice")]
-                                     (str "you prematurely shot your wad on what was supposed "
-                                        "to be a dry run, and now you have a bit of a mess"
-                                        " on your hands"))
-        }
-    :closing {
+(deftemplate paragraph-opener
+    {
+    :sad "I regret to inform you"
+    :romantic :romantic-opener
+    :funny ["It is the opinion of " :funny-entity]
+    }
+    :romantic-opener [ "I " :romantic-feeling " writing you" ]
+    :romantic-feeling (list "tingle with excitement"
+                            "rejoice in")
+    :funny-entity (list "The Ministry of Silly walks"
+                    "your mother")
+)
+(deftemplate paragraph-statement [" that " :statement-map "."]
+    :statement-map {
+        :romantic "my love for you grows with every passing day"
+        :sad ["your " (list "goldfish" "dog") " has died"]
+        :funny (list [(str "you tried to microwave a ding-dong while "
+                            "it was still in the wrapper " )
+                        (list "twice" "thrice")]
+                     (str "you prematurely shot your wad on what was supposed "
+                        "to be a dry run, and now you have a bit of a mess"
+                        " on your hands"))
+    }
+)
+(deftemplate paragraph-closing
+     {
         :romantic (list " I miss you and anticipate seeing you soon!"
                         " Take care, love, until my return!")
         :sad [ " The funeral will be at " (list "4" "6") "`pm on "
@@ -100,8 +101,12 @@
     }
 )
 
-(deftemplate butt [:paragraph]
-        :paragraph paragraph)
+(deftemplate paragraph
+    [:opener " " :statement " " :closing]
+    :opener paragraph-opener
+    :statement paragraph-statement
+    :closing paragraph-closing
+)
 
 ;possible themes: funny, sad, romantic
 (deftemplate letter
@@ -109,7 +114,6 @@
     :themes [ (list :sad :romantic :funny) ]
         :salutation [{:romantic "My Darling" :else "To Whom It May Concern"} ","]
         :paragraph paragraph
-
         :signature ["With " :with-thing ", " "\n" "Michael Marsh"]
             :with-thing {
                 :romantic "Love"
