@@ -123,52 +123,54 @@
 )
 
 (deftemplate speech-intro [:address :follow-up :loaded-question]
-:address ["My " {:mainstream "trusted" :else "fellow"}
-            {:mainstream "citizens"
-            :radical "brothers and sisters in solidarity"
-            :else "Americans"} ", " ]
-:follow-up [ (list "2" "6") (list "years" "weeks") "ago today," :enemy :did-bad-thing "."]
-    :enemy {
-        :mainstream (list "my opponent" :other-party)
-        :radical (list "the 1%" "our capitalist oppressors")
-        :else :other-party
-    }
-        :other-party "the other party"
-    :did-bad-thing [:cause "that " :effect ]
-        :cause {
-            :mainstream (list "signed a bill" "won a primary election" )
-            :radical (list "issued an edict" "hatched a plot")
-            :else "did something"
+    :address ["My " {:mainstream "trusted" :else "fellow"}
+                {:mainstream "citizens"
+                :radical "brothers and sisters in solidarity"
+                :else "Americans"} ", " ]
+    :follow-up [ (list "2" "6") (list "years" "weeks") "ago today," :enemy :did-bad-thing "."]
+        :enemy {
+            :mainstream (list "my opponent" :other-party)
+            :radical (list "the 1%" "our capitalist oppressors")
+            :else :other-party
         }
-        :effect {
-            :mainstream "changed the face of our country"
-            :radical ["destroyed" (list "your wages" "your future")]
-            :else "changed everything"
+            :other-party "the other party"
+        :did-bad-thing [:cause "that " :effect ]
+            :cause {
+                :mainstream (list "signed a bill" "won a primary election" )
+                :radical (list "issued an edict" "hatched a plot")
+                :else "did something"
+            }
+            :effect {
+                :mainstream "changed the face of our country"
+                :radical ["destroyed" (list "your wages" "your future")]
+                :else "changed everything"
+            }
+    :loaded-question [ (list ["Did you know " :upsetting-fact]
+                        ["How long will " :be-passive]) "?"]
+        :upsetting-fact {
+            :mainstream ["this nation "
+                            "exports fewer horse-drawn carraiges now than"
+                            (list "at any point in history" "in 1969")]
+
+            :radical ["our" :unfortunate-circumstance
+                        "is a direct result of" :evil-institution]
+            :else "this"
+
         }
-:loaded-question [ (list ["Did you know " :upsetting-fact]
-                    ["How long will " :be-passive]) "?"]
-    :upsetting-fact {
-        :mainstream ["this nation "
-                        "exports fewer horse-drawn carraiges now than"
-                        (list "at any point in history" "in 1969")]
-
-        :radical ["our" :unfortunate-circumstance
-                    "is a direct result of" :evil-institution]
-        :else "this"
-
-    }
-        :unfortunate-circumstance (list [(list "crippling" "degrading")
-                                        (list "unemployment" "oppression")]
-                                    "having to expend effort to survive")
-        :evil-institution (list "the Patriarchy" "modern civilization" "the 1%")
-    :be-passive {
-        :mainstream "they continue to vote against the middle class"
-        :radical (list [ "you continue to be robbed of your"
-                    (list "freedoms" "dignity" "marijuana")]
-                    "you stand by in blissful ignorance with the rest of the sheeple")
-        :else "they do nothing"
-    }
+            :unfortunate-circumstance (list [(list "crippling" "degrading")
+                                            (list "unemployment" "oppression")]
+                                        "having to expend effort to survive")
+            :evil-institution (list "the Patriarchy" "modern civilization" "the 1%")
+        :be-passive {
+            :mainstream "they continue to vote against the middle class"
+            :radical (list [ "you continue to be robbed of your"
+                        (list "freedoms" "dignity" "marijuana")]
+                        "you stand by in blissful ignorance with the rest of the sheeple")
+            :else "they do nothing"
+        }
 )
+
+(deftemplate speech-closing [""])
 
 (deftemplate political-speech
     (map #(identity ["\t" %])
@@ -250,7 +252,7 @@
                                 (list "anarcho" ["post" (list "`modern" "`-structural")])
                                 (list "chomsky" "dada" "social") "`ism"
                             ]
-            :stir-the-pot [:lead-in-closing :more-upsetting-facts :maybe-an-action]
+            :stir-the-pot [:lead-in-closing :more-upsetting-facts ]
                 :lead-in-closing [{:mainstream "Citizens" :radical "Comrades"}
                         ", the time " (list "is now" "has never been better"
                             "is quickly approaching") "for" :useless-action "!"]
@@ -269,7 +271,6 @@
                         :bad-radical-actions (list "exploits your labor"
                                                 "saddles you with debt"
                                                 "earns more money than you")
-                :maybe-an-action ""
-        :closing [""]
+        :closing speech-closing
 )
 
