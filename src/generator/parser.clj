@@ -58,7 +58,7 @@
                ))
         [] sequence )))
 
-(ann eval-loop [Map clojure.lang.Keyword [Vec -> Boolean] [Vec -> Vec] -> Vec])
+(ann eval-loop [Map clojure.lang.Keyword [-> Boolean] [Vec -> Vec] -> Vec])
 (defn- eval-loop [grammar, main-key, done?, finalize]
     (loop [sequence (main-key grammar)]
         (if (done? sequence)
