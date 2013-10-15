@@ -6,7 +6,7 @@
         [marshmacros.test :only [defntest]]))
 
 ;TODO should be Seq[T] -> T or whatever
-(ann safe-rand-nth [Seq -> Any])
+; (ann safe-rand-nth [Seq -> Any])
 (defntest safe-rand-nth [sequence]
     {[[]] nil
     [[42]] 42}
@@ -16,7 +16,7 @@
         ))
 
 ;TODO: define tighter types for evalable items
-(ann eval-theme [Map Seq -> Any])
+; (ann eval-theme [Map Seq -> Any])
 (defn- eval-theme [map-obj, themes]
     "looks up correct item for a theme in a map, or selects a random item
     in case of multiple themes"
@@ -27,7 +27,7 @@
                 (:default map-obj)))))
 
 ;WARNING: even more general than usual
-(ann eval-item [Seq Any Vec -> Seq])
+;(ann eval-item [Seq Any Vec -> Seq])
 (defn- eval-item
  [new-sequence, item, themes]
     (cond
@@ -41,7 +41,7 @@
         :else
             (conj new-sequence item)))
 
-(ann single-vector-passthrough [Vec -> Vec])
+;(ann single-vector-passthrough [Vec -> Vec])
 (defn- single-vector-passthrough
     [sequence, grammar]
     (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
@@ -58,7 +58,9 @@
                ))
         [] sequence )))
 
-(ann eval-loop [Map clojure.lang.Keyword [-> Boolean] [Vec -> Vec] -> Vec])
+;(ann eval-loop [Map clojure.lang.Keyword
+;    [(U (clojure.lang.Seqable Nothing) nil) -> Boolean]
+;    (U [Seq String -> Seq] [Any -> Any]) -> Vec])
 (defn- eval-loop [grammar, main-key, done?, finalize]
     (loop [sequence (main-key grammar)]
         (if (done? sequence)
@@ -66,15 +68,15 @@
         ;else
             (recur (single-vector-passthrough sequence grammar)))))
 
-(ann eval-main [Map -> Vec])
+;(ann eval-themes [Map -> Vec])
 (defn- eval-themes [grammar]
     (eval-loop grammar :themes (partial every? keyword?) identity))
 
-(ann eval-main [Map -> Vec])
+;(ann eval-main [Map -> Vec])
 (defn- eval-main [grammar]
     (eval-loop grammar :main (partial every? string?) sanitize-spaces))
 
-(ann eval-grammar [Map -> Vec])
+;(ann eval-grammar [Map -> Vec])
 (defn eval-grammar [grammar]
     (eval-main (assoc grammar
                         :themes
