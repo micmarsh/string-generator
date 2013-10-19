@@ -1,9 +1,10 @@
 (ns generator.templates
-    (:use clojure.core.typed))
+    (:use
+        clojure.core.typed
+        [generator.types :only [Template]]))
 
 ; reserved keywords: :main, :themes
 ; reserved themes: :else, :default
-
 
 (defn- template? [object]
     (cond
@@ -273,3 +274,4 @@
         :closing speech-closing
 )
 
+(ann political-speech Template)

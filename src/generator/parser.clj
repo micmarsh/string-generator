@@ -1,11 +1,11 @@
 (ns generator.parser
     (:use
         clojure.core.typed
+        [generator.types :only [Keyword Parsable Template]]
         [generator.utils :only [sanitize-spaces]]
         [clojure.core.reducers :only [fold]]))
 
 (ann ^:no-check clojure.core/rand-nth [(Seqable (Option Parsable))  -> Parsable])
-(def-alias Keyword clojure.lang.Keyword)
 ;TODO should be Seq[T] -> T or whatever
 (ann safe-rand-nth [(Seqable (Option Parsable)) -> Parsable])
 (defn- safe-rand-nth [sequence]
@@ -26,10 +26,6 @@
                 (:else map-obj)
                 (:default map-obj)))))
 
-(def-alias Parsable
-    "Any element of a template"
-    (U (Set Parsable) (Vec Parsable) (Map Keyword Parsable) String Keyword))
-
 (ann clojure.core/conj [(Seqable Parsable) Parsable -> (Seqable Parsable)])
 (ann clojure.core/seq [Parsable -> (Seqable Parsable)])
 (ann clojure.core/into [(Seqable Parsable) Parsable -> (Seqable Parsable)])
@@ -47,10 +43,10 @@
         :else
             (conj new-sequence item)))
 
-(ann single-vector-passthrough [(Seqable Parsable) (Map Keyword Parsable) -> (Seqable Parsable)])
+(ann single-vector-passthrough [(Seqable Parsable) Template -> (Seqable Parsable)])
 (defn- single-vector-passthrough
     [sequence, grammar]
-    (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
+    (let [themes (get grammar :themes)];these are each b/c themes are being run through here, think
         ; of a better way to separate this shit later
         ;(println "what up" sequence)
         (reduce ;(partial fold  concat)
@@ -58,7 +54,7 @@
              item :- Parsable]
             (if
                 (keyword? item)
-                    (let [lookup (grammar item)]
+                    (let [lookup (get grammar item)]
                          (eval-item new-sequence, (or lookup item), themes))
                 ;else
                     (eval-item new-sequence, item, themes)
