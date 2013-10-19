@@ -30,13 +30,13 @@
         strings))
 
 (ann clojure.string/split [String java.util.regex.Pattern -> (NonEmptyVec String)])
-(ann append-and-split [(Seq String) -> (NonEmptyVec String)])
+(ann append-and-split [(Seqable String) -> (NonEmptyVec String)])
 (defn- append-and-split [strings]
     (clojure.string/split
         (apply str (map #(str % " ") strings))
         #" +"))
 
-(ann sanitize-spaces [(Seq String) -> String])
+(ann sanitize-spaces [(Seqable String) -> String])
 (defn sanitize-spaces [strings]
     (apply str
         (prepend-spaces

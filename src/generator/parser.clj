@@ -61,22 +61,17 @@
                ))
         [] sequence )))
 
-(ann eval-loop [ThemedTemplate Keyword
-   [(U (clojure.lang.Seqable Nothing) nil) -> Boolean]
-   (U [Seq String -> Seq] [Any -> Any]) -> (U Vec Template)])
-(defn- eval-loop [grammar, main-key, done?, finalize]
+
+(ann eval-main [ThemedTemplate -> String])
+(defn- eval-main [grammar]
     (loop> [sequence :- (Seqable Parsable)
-             (main-key grammar)]
-        (if (done? sequence)
-            (finalize sequence)
+                (get grammar :main)]
+        (if (every? string? sequence)
+            (sanitize-spaces sequence)
         ;else
             (recur (single-vector-passthrough sequence grammar)))))
 
-(ann eval-main [ThemedTemplate -> Vec])
-(defn- eval-main [grammar]
-    (eval-loop grammar :main (partial every? string?) sanitize-spaces))
-
-(ann eval-grammar [Template (Vec Keyword) -> Vec])
+(ann eval-grammar [Template (Vec Keyword) -> String])
 (defn eval-grammar [grammar, themes]
     (eval-main (assoc grammar
                         :themes themes)))
