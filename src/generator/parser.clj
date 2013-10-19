@@ -4,10 +4,10 @@
         [generator.utils :only [sanitize-spaces]]
         [clojure.core.reducers :only [fold]]))
 
-(ann ^:no-check clojure.core/rand-nth [(Seqable Parsable) -> Parsable])
+(ann ^:no-check clojure.core/rand-nth [(Seqable (Option Parsable))  -> Parsable])
 (def-alias Keyword clojure.lang.Keyword)
 ;TODO should be Seq[T] -> T or whatever
-(ann safe-rand-nth [(Seqable Parsable) -> Parsable])
+(ann safe-rand-nth [(Seqable (Option Parsable)) -> Parsable])
 (defn- safe-rand-nth [sequence]
     (if (> (count sequence) 0)
         (rand-nth sequence)
@@ -28,9 +28,13 @@
 
 (def-alias Parsable
     "Any element of a template"
-    (U (Set Parsable) (Vec Parsable) Map String Keyword))
-;WARNING: even more general than usual
-(ann eval-item [(Seqable Parsable) Parsable Vec -> Seq])
+    (U (Set Parsable) (Vec Parsable) (Map Keyword Parsable) String Keyword))
+
+(ann clojure.core/conj [(Seqable Parsable) Parsable -> (Seqable Parsable)])
+(ann clojure.core/seq [Parsable -> (Seqable Parsable)])
+(ann clojure.core/into [(Seqable Parsable) Parsable -> (Seqable Parsable)])
+
+(ann eval-item [(Seqable Parsable) Parsable (Vec Keyword) -> (Seqable Parsable)])
 (defn- eval-item
  [new-sequence, item, themes]
     (cond
@@ -44,7 +48,7 @@
         :else
             (conj new-sequence item)))
 
-;(ann single-vector-passthrough [Vec -> Vec])
+; (ann single-vector-passthrough [(Vec Parsable) (Map Keyword Parsable) -> (Seqable Parsable)])
 (defn- single-vector-passthrough
     [sequence, grammar]
     (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
