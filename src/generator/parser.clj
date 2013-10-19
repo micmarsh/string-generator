@@ -44,18 +44,18 @@
             (into new-sequence item)
         (map? item)
             (conj new-sequence (eval-theme item themes))
-        ;(string? item) or keyword!
         :else
             (conj new-sequence item)))
 
-; (ann single-vector-passthrough [(Vec Parsable) (Map Keyword Parsable) -> (Seqable Parsable)])
+(ann single-vector-passthrough [(Seqable Parsable) (Map Keyword Parsable) -> (Seqable Parsable)])
 (defn- single-vector-passthrough
     [sequence, grammar]
     (let [themes (grammar :themes)];these are each b/c themes are being run through here, think
         ; of a better way to separate this shit later
         ;(println "what up" sequence)
         (reduce ;(partial fold  concat)
-        (fn [new-sequence, item]
+        (fn> [new-sequence :- (Seqable Parsable)
+             item :- Parsable]
             (if
                 (keyword? item)
                     (let [lookup (grammar item)]
