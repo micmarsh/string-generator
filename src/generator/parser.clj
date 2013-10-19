@@ -1,7 +1,7 @@
 (ns generator.parser
     (:use
         clojure.core.typed
-        [generator.types :only [Keyword Parsable Template]]
+        [generator.types :only [Keyword Parsable Template ThemedTemplate]]
         [generator.utils :only [sanitize-spaces]]
         [clojure.core.reducers :only [fold]]))
 
@@ -43,7 +43,7 @@
         :else
             (conj new-sequence item)))
 
-(ann single-vector-passthrough [(Seqable Parsable) Template -> (Seqable Parsable)])
+(ann single-vector-passthrough [(Seqable Parsable) ThemedTemplate -> (Seqable Parsable)])
 (defn- single-vector-passthrough
     [sequence, grammar]
     (let [themes (get grammar :themes)];these are each b/c themes are being run through here, think
@@ -61,7 +61,7 @@
                ))
         [] sequence )))
 
-(ann eval-loop [Template Keyword
+(ann eval-loop [ThemedTemplate Keyword
    [(U (clojure.lang.Seqable Nothing) nil) -> Boolean]
    (U [Seq String -> Seq] [Any -> Any]) -> (U Vec Template)])
 (defn- eval-loop [grammar, main-key, done?, finalize]
@@ -72,16 +72,11 @@
         ;else
             (recur (single-vector-passthrough sequence grammar)))))
 
-(ann eval-themes [Template -> Template])
-(defn- eval-themes [grammar]
-    (eval-loop grammar :themes (partial every? keyword?) identity))
-
-(ann eval-main [Template -> Vec])
+(ann eval-main [ThemedTemplate -> Vec])
 (defn- eval-main [grammar]
     (eval-loop grammar :main (partial every? string?) sanitize-spaces))
 
-(ann eval-grammar [Template -> Vec])
-(defn eval-grammar [grammar]
+(ann eval-grammar [Template (Vec Keyword) -> Vec])
+(defn eval-grammar [grammar, themes]
     (eval-main (assoc grammar
-                        :themes
-                        (eval-themes grammar))))
+                        :themes themes)))

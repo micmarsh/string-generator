@@ -6,6 +6,8 @@
   :dependencies [[org.clojure/clojure "1.5.0"]
                  [marshmacros "0.1.1"]
                  [org.clojure/core.typed "0.2.13"]]
+  :plugins [[lein-typed "0.3.1"]]
+  :core.typed {:check [generator.parser]}
   :javac-target "1.7"
   :java-target "1.7"
   :main generator.core)
