@@ -2,40 +2,40 @@
     (:use
         clojure.core.typed
         [generator.utils :only [sanitize-spaces]]
-        [clojure.core.reducers :only [fold]]
-        [marshmacros.test :only [defntest]]))
+        [clojure.core.reducers :only [fold]]))
 
-; ;TODO should be Seq[T] -> T or whatever
-; (ann safe-rand-nth [(Seqable Any) -> Any])
-; (defntest safe-rand-nth [sequence]
-;     {[[]] nil
-;     [[42]] 42}
-;     (if (> (count sequence) 0)
-;         (rand-nth sequence)
-;     ;else nil
-;         ))
+(ann ^:no-check clojure.core/rand-nth [(Seqable Parsable) -> Parsable])
+(def-alias Keyword clojure.lang.Keyword)
+;TODO should be Seq[T] -> T or whatever
+(ann safe-rand-nth [(Seqable Parsable) -> Parsable])
+(defn- safe-rand-nth [sequence]
+    (if (> (count sequence) 0)
+        (rand-nth sequence)
+       ""
+        ))
 
-; ;TODO: define tighter types for evalable items
-; (ann eval-theme [Map Seq -> Any])
-; (defn- eval-theme [map-obj, themes]
-;     "looks up correct item for a theme in a map, or selects a random item
-;     in case of multiple themes"
-;     (let [result (safe-rand-nth (filter identity (map map-obj themes)))]
-;         (or result
-;             (or
-;                 (:else map-obj)
-;                 (:default map-obj)))))
+;TODO: define tighter types for evalable items
+(ann clojure.lang.RT/get [Map Keyword -> Parsable])
+(ann eval-theme [(Map Keyword Parsable) (Vec Keyword) -> Parsable])
+(defn- eval-theme [map-obj, themes]
+    "looks up correct item for a theme in a map, or selects a random item
+    in case of multiple themes"
+    (let [result (safe-rand-nth (filter identity (map #(get map-obj %) themes)))]
+        (or result
+            (or
+                (:else map-obj)
+                (:default map-obj)))))
 
 (def-alias Parsable
-    "Any element of a template  "
-    (U (Set Parsable) (Vec Parsable) Map String clojure.lang.Keyword))
+    "Any element of a template"
+    (U (Set Parsable) (Vec Parsable) Map String Keyword))
 ;WARNING: even more general than usual
-;(ann eval-item [Seq Any Vec -> Seq])
+(ann eval-item [(Seqable Parsable) Parsable Vec -> Seq])
 (defn- eval-item
  [new-sequence, item, themes]
     (cond
-        (list? item)
-            (conj new-sequence (rand-nth item))
+        (set? item)
+            (conj new-sequence (rand-nth (seq item)))
         (vector? item)
             (into new-sequence item)
         (map? item)
