@@ -6,7 +6,7 @@
         [marshmacros.test :only [defntest]]))
 
 ;TODO should be Seq[T] -> T or whatever
-; (ann safe-rand-nth [Seq -> Any])
+(ann safe-rand-nth [(Seqable Any) -> Any])
 (defntest safe-rand-nth [sequence]
     {[[]] nil
     [[42]] 42}
@@ -16,13 +16,13 @@
         ))
 
 ;TODO: define tighter types for evalable items
-; (ann eval-theme [Map Seq -> Any])
+(ann eval-theme [Map Seq -> Any])
 (defn- eval-theme [map-obj, themes]
     "looks up correct item for a theme in a map, or selects a random item
     in case of multiple themes"
     (let [result (safe-rand-nth (filter identity (map map-obj themes)))]
         (or result
-            ( or
+            (or
                 (:else map-obj)
                 (:default map-obj)))))
 
