@@ -14,7 +14,6 @@
        ""
         ))
 
-;TODO: define tighter types for evalable items
 (ann clojure.lang.RT/get [Map Keyword -> Parsable])
 (ann eval-theme [(Map Keyword Parsable) (Vec Keyword) -> Parsable])
 (defn- eval-theme [map-obj, themes]
@@ -46,16 +45,14 @@
 (ann single-vector-passthrough [(Seqable Parsable) ThemedTemplate -> (Seqable Parsable)])
 (defn- single-vector-passthrough
     [sequence, grammar]
-    (let [themes (get grammar :themes)];these are each b/c themes are being run through here, think
-        ; of a better way to separate this shit later
-        ;(println "what up" sequence)
-        (reduce ;(partial fold  concat)
+    (let [themes (get grammar :themes)]
+        (reduce
         (fn> [new-sequence :- (Seqable Parsable)
              item :- Parsable]
             (if
                 (keyword? item)
                     (let [lookup (get grammar item)]
-                         (eval-item new-sequence, (or lookup item), themes))
+                         (eval-item new-sequence, lookup, themes))
                 ;else
                     (eval-item new-sequence, item, themes)
                ))

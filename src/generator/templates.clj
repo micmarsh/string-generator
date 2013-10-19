@@ -175,7 +175,6 @@
 (deftemplate political-speech
     (map #(identity ["\t" %])
         [:introduction "\n" :problem  "\n" :take-action "\n" :closing])
-    :themes [ (hash-set :mainstream :radical )]
         :introduction speech-intro
         :problem [:lead-in "." :blame-game "." :indignant-statement
                 {:mainstream "." :radical "!"}]
