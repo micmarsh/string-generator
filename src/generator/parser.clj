@@ -5,27 +5,30 @@
         [clojure.core.reducers :only [fold]]
         [marshmacros.test :only [defntest]]))
 
-;TODO should be Seq[T] -> T or whatever
-(ann safe-rand-nth [(Seqable Any) -> Any])
-(defntest safe-rand-nth [sequence]
-    {[[]] nil
-    [[42]] 42}
-    (if (> (count sequence) 0)
-        (rand-nth sequence)
-    ;else nil
-        ))
+; ;TODO should be Seq[T] -> T or whatever
+; (ann safe-rand-nth [(Seqable Any) -> Any])
+; (defntest safe-rand-nth [sequence]
+;     {[[]] nil
+;     [[42]] 42}
+;     (if (> (count sequence) 0)
+;         (rand-nth sequence)
+;     ;else nil
+;         ))
 
-;TODO: define tighter types for evalable items
-(ann eval-theme [Map Seq -> Any])
-(defn- eval-theme [map-obj, themes]
-    "looks up correct item for a theme in a map, or selects a random item
-    in case of multiple themes"
-    (let [result (safe-rand-nth (filter identity (map map-obj themes)))]
-        (or result
-            (or
-                (:else map-obj)
-                (:default map-obj)))))
+; ;TODO: define tighter types for evalable items
+; (ann eval-theme [Map Seq -> Any])
+; (defn- eval-theme [map-obj, themes]
+;     "looks up correct item for a theme in a map, or selects a random item
+;     in case of multiple themes"
+;     (let [result (safe-rand-nth (filter identity (map map-obj themes)))]
+;         (or result
+;             (or
+;                 (:else map-obj)
+;                 (:default map-obj)))))
 
+(def-alias Parsable
+    "Any element of a template  "
+    (U (Set Parsable) (Vec Parsable) Map String clojure.lang.Keyword))
 ;WARNING: even more general than usual
 ;(ann eval-item [Seq Any Vec -> Seq])
 (defn- eval-item
