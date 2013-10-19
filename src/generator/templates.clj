@@ -1,14 +1,14 @@
-(ns generator.templates)
+(ns generator.templates
+    (:use clojure.core.typed))
 
 ; reserved keywords: :main, :themes
 ; reserved themes: :else, :default
 
-(def symbol-table (atom { }))
 
 (defn- template? [object]
     (cond
     (symbol? object)
-        (let [evaled (@symbol-table object)]
+        (let [evaled (eval object)]
             (and
                 (map? evaled)
                 (:main evaled)))
@@ -19,7 +19,7 @@
 
 (defn- assoc-template [final-map [key value]]
     (if (template? value)
-        (let [to-map (@symbol-table value)
+        (let [to-map (eval value)
               main (:main to-map)
               value-without-main (dissoc to-map :main)
               map-with-main (assoc final-map key main)]
@@ -40,7 +40,6 @@
     (let [needs-main (odd? (count args))
           new-args (if needs-main (cons :main args) args)
           template-map (make-template-map new-args)]
-        (swap! symbol-table #(assoc % name template-map))
         `(def ~name ~template-map)))
 
 (def example {
