@@ -45,7 +45,6 @@
 
 (defn- eval-main [grammar]
   (loop [sequence (:main grammar)]
-    (println sequence)
     (if (every? string? sequence)
       (sanitize-spaces sequence)
       (recur (single-vector-passthrough grammar sequence)))))
