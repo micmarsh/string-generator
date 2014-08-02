@@ -1,4 +1,5 @@
-(ns generator.templates)
+(ns generator.templates
+  (:use [generator.macros :only (deftemplate)]))
 
 ; reserved keywords: :main, :themes
 ; reserved themes: :else, :default
@@ -33,12 +34,6 @@
     ;else
         (let [pair (first pairs)]
             (recur (assoc-template final-map pair) (rest pairs))))))
-
-(defmacro deftemplate [name & args]
-    (let [needs-main (odd? (count args))
-          new-args (if needs-main (cons :main args) args)
-          template-map (make-template-map new-args)]
-        `(def ~name ~template-map)))
 
 (def example {
         :main [:greeting  " " :second-phrase]
