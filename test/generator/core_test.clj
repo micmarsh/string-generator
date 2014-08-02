@@ -3,10 +3,6 @@
         generator.core
         generator.parser))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 1 1))))
-
 (deftest themes-1
     (testing "themes!"
         (is (=

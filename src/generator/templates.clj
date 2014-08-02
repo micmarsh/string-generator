@@ -1,7 +1,4 @@
-(ns generator.templates
-    (:use
-        clojure.core.typed
-        [generator.types :only [Template]]))
+(ns generator.templates)
 
 ; reserved keywords: :main, :themes
 ; reserved themes: :else, :default
@@ -272,5 +269,3 @@
                                                 "earns more money than you")
         :closing speech-closing
 )
-
-(ann political-speech Template)
