@@ -1,6 +1,6 @@
-(defproject generator "0.1.1"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject generator "0.1.2"
+  :description "Generate strings based on templates. Might someday be helpful in conjunction with nonsense generators"
+  :url "https://github.com/micmarsh/string-generator/"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
