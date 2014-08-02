@@ -1,6 +1,5 @@
 (ns generator.utils)
 
-
 (defn- no-space? [i, item, strings]
     (or
         (= i 0)
