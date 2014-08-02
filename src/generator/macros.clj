@@ -30,7 +30,7 @@
       (recur (assoc-template final-map pair) (rest pairs))))))
 
 (defmacro deftemplate [name & args]
-    (let [needs-main (odd? (count args))
-          new-args (if needs-main (cons :main args) args)
-          template-map (make-template-map new-args)]
-        `(def ~name ~template-map)))
+  (let [needs-main (odd? (count args))
+        new-args (if needs-main (cons :main args) args)
+        template-map (make-template-map new-args)]
+    `(def ~name ~template-map)))

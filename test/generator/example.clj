@@ -121,7 +121,7 @@
 )
 
 (deftemplate political-speech
-    (map #(identity ["\t" %])
+    (mapv (partial vector \tab)
         [:introduction "\n" :problem  "\n" :take-action "\n" :closing])
         :introduction speech-intro
         :problem [:lead-in "." :blame-game "." :indignant-statement

@@ -15,32 +15,36 @@
         (:else map-obj)
         (:default map-obj)))))
 
-(defn- eval-item
+(defn into! [mutable-seq source]
+  (reduce #(conj! %1 %2) mutable-seq source))
+
+(defn- eval-item!
   [new-sequence item themes]
   (cond
     (set? item)
-      (conj new-sequence (rand-nth (seq item)))
+      (conj! new-sequence (rand-nth (seq item)))
     (vector? item)
-      (into new-sequence item)
+      (into! new-sequence item)
     (map? item)
-      (conj new-sequence (eval-theme item themes))
+      (conj! new-sequence (eval-theme item themes))
     :else
-      (conj new-sequence item)))
+      (conj! new-sequence item)))
 
 (defn- single-vector-passthrough
   [sequence grammar]
   (let [themes (get grammar :themes)]
-    (reduce
-      (fn [new-sequence item]
-        (if (keyword? item)
-              (let [lookup (get grammar item)]
-                (eval-item new-sequence lookup themes))
-              (eval-item new-sequence item themes)))
-    [] sequence)))
-
+    (persistent!
+      (reduce
+        (fn [new-sequence item]
+          (if (keyword? item)
+            (let [lookup (get grammar item)]
+              (eval-item new-sequence lookup themes))
+            (eval-item! new-sequence item themes)))
+        (transient [])
+        sequence))))
 
 (defn- eval-main [grammar]
-  (loop [sequence (get grammar :main)]
+  (loop [sequence (:main grammar)]
     (if (every? string? sequence)
       (sanitize-spaces sequence)
       (recur (single-vector-passthrough sequence grammar)))))
