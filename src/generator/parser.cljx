@@ -31,23 +31,24 @@
       (conj! new-sequence item)))
 
 (defn- single-vector-passthrough
-  [sequence grammar]
+  [grammar sequence]
   (let [themes (get grammar :themes)]
     (persistent!
       (reduce
         (fn [new-sequence item]
           (if (keyword? item)
             (let [lookup (get grammar item)]
-              (eval-item new-sequence lookup themes))
+              (eval-item! new-sequence lookup themes))
             (eval-item! new-sequence item themes)))
         (transient [])
         sequence))))
 
 (defn- eval-main [grammar]
   (loop [sequence (:main grammar)]
+    (println sequence)
     (if (every? string? sequence)
       (sanitize-spaces sequence)
-      (recur (single-vector-passthrough sequence grammar)))))
+      (recur (single-vector-passthrough grammar sequence)))))
 
 (defn eval-grammar
   ([grammar] (eval-grammar grammar [ ]))
