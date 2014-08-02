@@ -8,7 +8,7 @@
     ""))
 
 (defn- eval-theme
-  [map-obj themes]
+  [themes map-obj]
   (let [result (safe-rand-nth (filter identity (map #(get map-obj %) themes)))]
     (or result
       (or
@@ -26,7 +26,7 @@
     (vector? item)
       (into! new-sequence item)
     (map? item)
-      (conj! new-sequence (eval-theme item themes))
+      (conj! new-sequence (eval-theme themes item))
     :else
       (conj! new-sequence item)))
 
