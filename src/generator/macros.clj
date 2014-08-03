@@ -36,6 +36,5 @@
         pairs (tuples new-args)]
     (test-keywords pairs)
     (let [{main :main :as template} (into { } pairs)
-          evaled-main (eval-template template main)
-          template-body (assoc template :main evaled-main)]
-      `(def ~name ~template-body))))
+          evaled-main (eval-template template main)]
+      `(def ~name ~evaled-main))))
