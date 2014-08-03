@@ -1,4 +1,18 @@
-(ns generator.macros)
+(ns generator.macros
+  (:use [generator.parser :only (eval-main)]))
+
+(def finished?
+  (let [times (atom 0)]
+    (>= 1000 (swap! times inc))))
+
+; (defn- eval-item! [new-sequence _ item]
+;   (cond
+;     (set? item)
+;       (fmap )))
+
+; (defn eval-template [template]
+;   (eval-main
+;     ))
 
 (defn- test-keywords [pairs]
   (let [seen (atom #{ })]
