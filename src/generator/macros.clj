@@ -1,18 +1,24 @@
 (ns generator.macros
-  (:use [generator.parser :only (eval-main)]))
+  (:use [clojure.algo.generic.functor :only (fmap)]))
 
-(def finished?
-  (let [times (atom 0)]
-    (>= 1000 (swap! times inc))))
+(defn fmap? [item]
+  (or
+    (set? item)
+    (vector? item)
+    (map? item)))
 
-; (defn- eval-item! [new-sequence _ item]
-;   (cond
-;     (set? item)
-;       (fmap )))
-
-; (defn eval-template [template]
-;   (eval-main
-;     ))
+(defn eval-template [template item]
+  (cond
+    (fmap? item)
+      (fmap
+        (partial eval-template template)
+        item)
+    (keyword? item)
+      (eval-template template (item template))
+    (list? item)
+      (eval-template template (eval item))
+    :else
+      item))
 
 (defn- test-keywords [pairs]
   (let [seen (atom #{ })]
@@ -29,5 +35,7 @@
         new-args (if needs-main (cons :main args) args)
         pairs (tuples new-args)]
     (test-keywords pairs)
-    (let [template-body (into { } pairs)]
+    (let [{main :main :as template} (into { } pairs)
+          evaled-main (eval-template template main)
+          template-body (assoc template :main evaled-main)]
       `(def ~name ~template-body))))
