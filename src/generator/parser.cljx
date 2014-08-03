@@ -1,6 +1,5 @@
 (ns generator.parser
-    (:use
-        [generator.utils :only [sanitize-spaces]]))
+  (:use [generator.utils :only [sanitize-spaces]]))
 
 (defn- safe-rand-nth [sequence]
   (if (> (count sequence) 0)

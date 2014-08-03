@@ -24,13 +24,24 @@
 (defn- make-template-map [pairs]
   (loop [final-map { }
          pairs (partition 2 pairs)]
-  (if (= 0 (count pairs))
-    final-map
-    (let [pair (first pairs)]
-      (recur (assoc-template final-map pair) (rest pairs))))))
+    (if (= 0 (count pairs))
+      final-map
+      (let [pair (first pairs)]
+        (recur (assoc-template final-map pair) (rest pairs))))))
+
+(defn- test-keywords [pairs]
+  (let [seen (atom #{ })]
+    (doseq [[key value] pairs]
+      (if (contains? @seen key)
+        (throw (Exception. (str "Duplicate key error: " key)))
+        (swap! seen conj key)))))
+
+(def tuples #(->> % (partition 2) (map vec)))
 
 (defmacro deftemplate [name & args]
   (let [needs-main (odd? (count args))
         new-args (if needs-main (cons :main args) args)
-        template-map (make-template-map new-args)]
-    `(def ~name ~template-map)))
+        pairs (tuples new-args)]
+    (test-keywords pairs)
+    (let [template-body (into { } pairs)]
+      `(def ~name ~template-body))))
