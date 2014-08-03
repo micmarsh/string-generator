@@ -147,8 +147,7 @@
                                                 "earns more money than you")
         :closing  [:haters :gonna-hate :historical-validity :inspiration]
              :haters
-                 {:mainstream [ :lead-in-haters
-                        #{"some folks" "they" } ]
+                 {:mainstream [ :lead-in-haters #{"some folks" "they" } ]
                  :radical #{"The happily employed" "Greedy bankers" "Corporate CEOs"}}
                  :lead-in-haters #{"My friends, " "Citizens, "}
              :gonna-hate [:speak-verb "we don't" :do-enough "." :finish-thought "."]
