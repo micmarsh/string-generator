@@ -1,4 +1,4 @@
-(defproject generator "0.1.3"
+(defproject generator "0.1.4"
   :description "Generate strings based on templates. Might someday be helpful in conjunction with nonsense generators"
   :url "https://github.com/micmarsh/string-generator/"
   :license {:name "Eclipse Public License"
