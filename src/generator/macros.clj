@@ -10,9 +10,7 @@
 (defn eval-template [template item]
   (cond
     (fmap? item)
-      (fmap
-        (partial eval-template template)
-        item)
+      (fmap (partial eval-template template) item)
     (keyword? item)
       (eval-template template (item template))
     (list? item)
