@@ -7,7 +7,10 @@
     ""))
 
 (defn- eval-theme [themes map-obj]
-  (let [result (safe-rand-nth (filter identity (map #(get map-obj %) themes)))]
+  (let [result (->> themes
+                (map map-obj)
+                (filter identity)
+                safe-rand-nth)]
     (or result
       (or
         (:else map-obj)
@@ -37,7 +40,8 @@
 (defn eval-grammar
   ([grammar] (eval-grammar grammar [ ]))
   ([grammar themes]
-    (if (every? string? grammar)
-      (sanitize-spaces grammar)
-      (recur
-        (single-vector-passthrough themes grammar) themes))))
+    (loop [result grammar]
+      (if (every? string? result)
+        (sanitize-spaces result)
+        (recur
+          (single-vector-passthrough themes result))))))
